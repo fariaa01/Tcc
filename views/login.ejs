@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Sistema de Gestão</title>
+  <link rel="stylesheet" href="/login/login.css" />
+</head>
+<body>
+  <div class="container" id="container">
+    <div class="painel-azul">
+      <h1 id="tituloPainel">Login</h1>
+      <p id="textoPainel">Bem-vindo de volta!</p>
+    </div>
+
+    <div class="secao-formulario formulario-login">
+      <div class="conteudo-formulario">
+        <h1>Login</h1>
+        <form method="POST" action="/login">
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="senha" placeholder="Senha" required />
+          <div class="botoes-formulario">
+            <button type="submit">Entrar</button>
+          </div>
+        </form>
+        <div class="text-alternative">
+          <span>Não tem login? <a onclick="moverParaCadastro()">Cadastre-se</a></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="secao-formulario formulario-cadastro">
+      <div class="conteudo-formulario">
+        <h1>Cadastro</h1>
+        <form method="POST" action="/register">
+          <input type="text" name="nome" placeholder="Nome" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="senha" placeholder="Senha" required />
+          <div class="botoes-formulario">
+            <button type="submit">Cadastrar</button>
+          </div>
+        </form>
+        <div class="text-alternative">
+          <span>Já tem conta? <a onclick="moverParaLogin()">Fazer login</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const tituloPainel = document.getElementById('tituloPainel');
+    const textoPainel = document.getElementById('textoPainel');
+
+    function moverParaCadastro() {
+      container.classList.add('cadastro');
+      tituloPainel.textContent = "Cadastro";
+      textoPainel.textContent = "Crie sua conta e comece a usar agora!";
+    }
+
+    function moverParaLogin() {
+      container.classList.remove('cadastro');
+      tituloPainel.textContent = "Login";
+      textoPainel.textContent = "Bem-vindo de volta!";
+    }
+  </script>
+</body>
+</html>

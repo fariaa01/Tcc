@@ -1,0 +1,123 @@
+<!-- Troque todo seu HTML atual por este -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão Financeira</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="/financeiro/financeiro.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Gestão Financeira</h2>
+    <div class="top-bar">
+      <input type="text" placeholder="Buscar lançamento...">
+      <button class="btn-add" id="btnNovoLancamento"><i class="fas fa-plus-circle"></i> Adicionar Lançamento</button>
+    </div>
+
+    <div class="cards">
+      <div class="card entrada">
+        <p>Total de Entradas</p>
+        <strong>R$ <%= totalEntradas %></strong>
+      </div>
+      <div class="card saida">
+        <p>Total de Saídas</p>
+        <strong>R$ <%= totalSaidas %></strong>
+      </div>
+      <div class="card saldo">
+        <p>Saldo Final</p>
+        <strong>R$ <%= saldoFinal %></strong>
+      </div>
+      <div class="card registros">
+        <p>Lançamentos Registrados</p>
+        <strong><%= dados.length %></strong>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Categoria</th>
+          <th>Tipo</th>
+          <th>Valor</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% dados.forEach(d => { %>
+        <tr>
+          <td><%= d.data.toISOString().split('T')[0] %></td>
+          <td><%= d.categoria %></td>
+          <td><%= d.tipo %></td>
+          <td>R$ <%= parseFloat(d.valor).toFixed(2) %></td>
+          <td>
+            <a href="#" onclick="confirmarExclusao('<%= d.id %>')" class="btn-excluir">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <a href="/dashboard" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
+  </div>
+
+  <div id="modalLancamento" class="modal">
+    <div class="modal-content">
+      <span id="fecharModal" class="close">&times;</span>
+      <h3>Novo Lançamento</h3>
+      <form method="POST" action="/financeiro/create" id="formLancamento">
+        <select name="tipo" required>
+          <option value="">Selecione o tipo</option>
+          <option value="entrada">Entrada</option>
+          <option value="saida">Saída</option>
+        </select>
+        <select name="categoria" required>
+          <option value="">Selecione a categoria</option>
+          <option value="Alimento">Alimento</option>
+          <option value="Bebida">Bebida</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Outros">Outros</option>
+        </select>
+        <input type="number" name="valor" placeholder="Valor" required>
+        <input type="date" name="data" required>
+        <button type="submit">Adicionar</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById("modalLancamento");
+      const btnAbrir = document.getElementById("btnNovoLancamento");
+      const btnFechar = document.getElementById("fecharModal");
+      if (btnAbrir && modal && btnFechar) {
+        btnAbrir.onclick = () => modal.style.display = "flex";
+        btnFechar.onclick = () => modal.style.display = "none";
+        window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+      }
+    });
+
+    function confirmarExclusao(id) {
+      Swal.fire({
+        title: 'Tem certeza?',
+        text: 'Deseja excluir este lançamento?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e74c3c',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = `/financeiro/delete/${id}`;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
