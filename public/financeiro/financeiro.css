@@ -186,6 +186,15 @@ tbody tr:hover {
   cursor: pointer;
 }
 
+.search-icon {
+  position: absolute;
+  top: 17.5%;
+  left: 175px;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
