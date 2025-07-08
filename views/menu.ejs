@@ -7,6 +7,14 @@
   <link rel="stylesheet" href="/css/funcionarios.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #ECF0F1;
+      padding: 10px;
+    }
+
     .grid-cards {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -80,6 +88,20 @@
       text-decoration: none;
     }
 
+    .btn-add{
+      background: #1abc9c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s;
+    }
+
     .modal {
       position: fixed;
       z-index: 999;
@@ -111,27 +133,30 @@
     .form-box input,
     .form-box textarea,
     .form-box select {
-      width: 100%;
+      width: 95%;
       margin-bottom: 10px;
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #ccc;
     }
 
-    .form-box button {
-      width: 100%;
-      padding: 10px;
-      background: #2ecc71;
+
+    .btn-avancar {
+      width: 17%;
+      height: 25px;
+      background: #1abc9c;
       color: white;
       border: none;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s;
     }
 
-    .form-box button:hover {
-      background: #27ae60;
+    .btn-avancar:hover {
+      background: #18b394;
     }
+
   </style>
 </head>
 <body>
@@ -179,7 +204,7 @@
         <option value="bebida">Bebida</option>
         <option value="sobremesa">Sobremesa</option>
       </select>
-      <button class="form-box button" id="btnAvancar">Avançar</button>
+       <button class="btn-avancar" id="btnAvancar">Avançar</button>
     </div>
   </div>
 
@@ -235,12 +260,12 @@
 
       if (categoria === "bebida") {
         camposDinamicos.innerHTML = `
-          <input type="number" name="volume" placeholder="Volume (ml)" />
-          <select name="com_gelo">
-            <option value="">Com gelo?</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>`;
+  <input type="number" name="volume" placeholder="Volume (ml)" class="form-box-input" />
+  <select name="com_gelo" class="form-box-input">
+    <option value="">Com gelo?</option>
+    <option value="sim">Sim</option>
+    <option value="nao">Não</option>
+  </select>`;
       } else if (categoria === "lanche") {
         camposDinamicos.innerHTML = `
           <input type="text" name="tamanho" placeholder="Tamanho do lanche" />
