@@ -1,13 +1,18 @@
 const express = require('express');
-const multer = require('multer');
-const upload = multer({ dest: 'public/uploads/' });
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
 const menuController = require('../controllers/menuController');
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'public/uploads/'),
+  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+});
+const upload = multer({ storage });
 
 router.get('/', menuController.renderMenu);
-router.post('/', upload.single('foto'), menuController.createPedido);
-router.post('/editar/:id', upload.single('foto'), menuController.editarPedido);
-router.post('/excluir/:id', menuController.excluirPedido);
+router.post('/create', upload.single('imagem'), menuController.createPrato);
+router.post('/edit/:id', upload.single('imagem'), menuController.editarPrato);
+router.post('/delete/:id', menuController.excluirPrato);
 
 module.exports = router;

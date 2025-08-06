@@ -1,49 +1,24 @@
 const db = require('../db');
 
 module.exports = {
-  getAll: async () => {
-    const [rows] = await db.query('SELECT * FROM pedidos');
+  getAllByUsuario: async (usuarioId) => {
+    const [rows] = await db.query('SELECT * FROM menu WHERE usuario_id = ?', [usuarioId]);
     return rows;
   },
 
   create: async (dados) => {
-    const {
-      nome_cliente, pedido, ingredientes, foto, quantidade,
-      preco, status_pedido = 'pendente', observacoes, usuario_id
-    } = dados;
-
-    await db.query(
-      `INSERT INTO pedidos (
-        nome_cliente, pedido, ingredientes, foto,
-        quantidade, preco, status_pedido, observacoes,
-        data_pedido, usuario_id
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)`,
-      [
-        nome_cliente, pedido, ingredientes, foto,
-        quantidade, preco, status_pedido, observacoes, usuario_id
-      ]
-    );
+    const { nome_prato, preco, descricao, imagem, usuario_id, destaque } = dados;
+    const query = 'INSERT INTO menu (nome_prato, preco, descricao, imagem, usuario_id, destaque) VALUES (?, ?, ?, ?, ?, ?)';
+    await db.query(query, [nome_prato, preco, descricao, imagem, usuario_id, destaque]);
   },
 
   update: async (id, dados) => {
-    const {
-      nome_cliente, pedido, ingredientes, quantidade,
-      preco, status_pedido, observacoes
-    } = dados;
-
-    await db.query(
-      `UPDATE pedidos SET
-        nome_cliente = ?, pedido = ?, ingredientes = ?, quantidade = ?,
-        preco = ?, status_pedido = ?, observacoes = ?
-      WHERE id = ?`,
-      [
-        nome_cliente, pedido, ingredientes, quantidade,
-        preco, status_pedido, observacoes, id
-      ]
-    );
+    const { nome_prato, preco, descricao, imagem, destaque } = dados;
+    const query = 'UPDATE menu SET nome_prato = ?, preco = ?, descricao = ?, imagem = ?, destaque = ? WHERE id = ?';
+    await db.query(query, [nome_prato, preco, descricao, imagem, destaque, id]);
   },
 
   delete: async (id) => {
-    await db.query('DELETE FROM pedidos WHERE id = ?', [id]);
+    await db.query('DELETE FROM menu WHERE id = ?', [id]);
   }
 };

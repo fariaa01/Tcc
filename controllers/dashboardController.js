@@ -71,7 +71,8 @@ module.exports = {
         total_entrada: (parseFloat(total_entrada) || 0).toFixed(2),
         total_saida: (parseFloat(total_saida) || 0).toFixed(2),
         entradas,
-        saidas
+        saidas,
+        userId: usuarioId 
       });
 
     } catch (err) {

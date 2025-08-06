@@ -12,8 +12,7 @@ module.exports = {
     try {
       await db.query(`
         INSERT INTO funcionarios 
-        (nome, cargo, email, data_admissao, salario, cpf, telefone, estado, usuario_id, foto)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
+        (nome, cargo, email, data_admissao, salario, cpf, telefone, estado, usuario_id, foto)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
         [nome, cargo, email, data_admissao, salario, cpf, telefone, estado, usuarioId, foto]
       );
     } catch (error) {
@@ -28,8 +27,7 @@ module.exports = {
     const { nome, cargo, email, data_admissao, salario, cpf, telefone, estado } = dados;
     await db.query(`
       UPDATE funcionarios 
-      SET nome = ?, cargo = ?, email = ?, data_admissao = ?, salario = ?, cpf = ?, telefone = ?, estado = ?
-      WHERE id = ? AND usuario_id = ?`, 
+      SET nome = ?, cargo = ?, email = ?, data_admissao = ?, salario = ?, cpf = ?, telefone = ?, estado = ? WHERE id = ? AND usuario_id = ?`, 
       [nome, cargo, email, data_admissao, salario, cpf, telefone, estado, id, usuarioId]
     );
   },

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cardápio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      width: 250px;
+      background-color: #f9f9f9;
+    }
+    .card img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .card h2 {
+      margin: 0 0 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Seus Pratos Cadastrados</h1>
+
+  <div class="cards-container">
+    <% if (pratos.length === 0) { %>
+      <p>Você ainda não cadastrou nenhum prato.</p>
+    <% } else { %>
+      <% pratos.forEach(prato => { %>
+        <div class="card">
+          <% if (prato.foto) { %>
+            <img src="<%= prato.foto %>" alt="Foto do prato">
+          <% } %>
+          <h2><%= prato.nome %></h2>
+          <p><strong>Descrição:</strong> <%= prato.descricao %></p>
+          <p><strong>Ingredientes:</strong> <%= prato.ingredientes %></p>
+          <p><strong>Preço:</strong> R$ <%= prato.preco.toFixed(2) %></p>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</body>
+</html>

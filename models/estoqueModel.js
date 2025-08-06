@@ -31,67 +31,69 @@ module.exports = {
   },
 
   create: async (dados, usuarioId) => {
-    const {
-      produto,
-      categoria,
-      quantidade,
-      quantidade_minima,
-      valor,
-      unidade_medida,
-      validade,
-      fornecedor
-    } = dados;
+    const conn = await db.getConnection();
+    try {
+      await conn.beginTransaction();
 
-    await db.query(
-      `INSERT INTO estoque 
-        (produto, categoria, quantidade, quantidade_minima, valor, unidade_medida, validade, fornecedor, usuario_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        produto,
-        categoria,
-        quantidade,
-        quantidade_minima,
-        valor,
-        unidade_medida,
-        validade,
-        fornecedor,
-        usuarioId
-      ]
-    );
+      const { produto,categoria,quantidade,quantidade_minima,valor,unidade_medida,validade,fornecedor } = dados;
+
+      await conn.query(
+        `INSERT INTO estoque 
+          (produto, categoria, quantidade, quantidade_minima, valor, unidade_medida, validade, fornecedor, usuario_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [produto,categoria,quantidade, quantidade_minima,valor,unidade_medida,validade,fornecedor,usuarioId]
+      );
+
+      await conn.commit();
+    } catch (error) {
+      await conn.rollback();
+      throw error;
+    } finally {
+      conn.release();
+    }
   },
 
   update: async (id, dados, usuarioId) => {
-    const {
-      produto,
-      categoria,
-      quantidade,
-      quantidade_minima,
-      valor,
-      unidade_medida,
-      validade,
-      fornecedor
-    } = dados;
+    const conn = await db.getConnection();
+    try {
+      await conn.beginTransaction();
 
-    await db.query(
-      `UPDATE estoque 
-        SET produto=?, categoria=?, quantidade=?, quantidade_minima=?, valor=?, unidade_medida=?, validade=?, fornecedor=?
-        WHERE id=? AND usuario_id=?`,
-      [
-        produto,
-        categoria,
-        quantidade,
-        quantidade_minima,
-        valor,
-        unidade_medida,
-        validade,
-        fornecedor,
-        id,
-        usuarioId
-      ]
-    );
+      const {
+        produto, categoria,quantidade,quantidade_minima,valor,unidade_medida,validade,fornecedor
+      } = dados;
+
+      await conn.query(
+        `UPDATE estoque 
+          SET produto=?, categoria=?, quantidade=?, quantidade_minima=?, valor=?, unidade_medida=?, validade=?, fornecedor=?
+          WHERE id=? AND usuario_id=?`,
+        [
+          produto,categoria,quantidade,quantidade_minima,valor,unidade_medida,validade,fornecedor,
+          id,
+          usuarioId
+        ]
+      );
+
+      await conn.commit();
+    } catch (error) {
+      await conn.rollback();
+      throw error;
+    } finally {
+      conn.release();
+    }
   },
 
   delete: async (id, usuarioId) => {
-    await db.query('DELETE FROM estoque WHERE id = ? AND usuario_id = ?', [id, usuarioId]);
+    const conn = await db.getConnection();
+    try {
+      await conn.beginTransaction();
+
+      await conn.query('DELETE FROM estoque WHERE id = ? AND usuario_id = ?', [id, usuarioId]);
+
+      await conn.commit();
+    } catch (error) {
+      await conn.rollback();
+      throw error;
+    } finally {
+      conn.release();
+    }
   }
 };
