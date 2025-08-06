@@ -15,7 +15,7 @@
     }
 
     .sidebar {
-      background: #148f77;
+      background: #2b70b5;
       color: white;
       width: 230px;
       padding: 20px;
@@ -46,7 +46,7 @@
     }
 
     .sidebar nav a:hover {
-      background: #1abc9c;
+      background: #215e9c;
     }
 
     .sidebar:not(.open) {
@@ -134,7 +134,7 @@
     hr.separador {
       border: none;
       height: 3px;
-      background: linear-gradient(to right, #1abc9c, #2ecc707e);
+      background: linear-gradient(to right, #3489dd, #215e9c);
       margin: 40px auto;
       width: 90%;
       border-radius: 10px;

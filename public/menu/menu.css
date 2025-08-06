@@ -241,7 +241,7 @@
 .btn-arquivo {
   display: inline-block;
   background: none;
-  color: #000000;
+  color: #272727;
   padding: 10px 8px;
   border-radius: 8px;
   font-weight: bold;
@@ -250,6 +250,6 @@
   transition: background 0.3s;
 }
 .btn-arquivo:hover {
-  background: #16a0847a;
+  background: #d1d1d17a;
 }
     
