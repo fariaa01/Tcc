@@ -1,55 +1,76 @@
 const express = require('express');
 const session = require('express-session');
-const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const path = require('path');
-const helmet = require('helmet');
+const fs = require('fs');
+const crypto = require('crypto'); 
+
+const security = require('./middlewares/security');
+const tourFlag = require('./middlewares/tourFlag');
 
 const app = express();
 
-// Configuração do Helmet com CSP personalizada
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "https://cdnjs.cloudflare.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
-      imgSrc: ["'self'", "data:"],
-      workerSrc: ["'self'", "blob:"],
-      // pode adicionar outras diretivas se precisar
-    },
-  },
-}));
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString('base64');
+  next();
+});
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(security);
+
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '2mb' }));
 
 app.use(session({
-  secret: 'segredo_super_secreto',
+  secret: process.env.SESSION_SECRET || 'segredo_super_secreto',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: { sameSite: 'lax' }
 }));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(tourFlag);
+
+app.use((req, res, next) => {
+  res.locals.usuarioId = req.session.userId || null;
+  res.locals.empresaId = req.session.empresaId || null;
+  next();
+});
+
+app.use('/tour', require('./routes/tour'));
 app.use('/', require('./routes/auth'));
 app.use('/cardapio', require('./routes/cardapio'));
+app.use('/menu', require('./routes/menu'));
 app.use('/relatorios', require('./routes/relatorios'));
 app.use('/empresa', require('./routes/empresa'));
 app.use('/dashboard', require('./routes/dashboard'));
 app.use('/funcionarios', require('./routes/funcionario'));
 app.use('/estoque', require('./routes/estoque'));
+app.use('/restaurantes', require('./routes/restaurantes'));
 app.use('/financeiro', require('./routes/financeiro'));
-app.use('/menu', require('./routes/menu'));
-app.use('/pedido', require('./routes/pedido'));
+app.use('/contas-a-pagar', require('./routes/contasPagar'));
 
-app.get('/', (req, res) => {
-  if (!req.session.userId) return res.redirect('/login');
-  res.redirect('/menu');
+app.get('/healthz', (_req, res) => res.status(200).send('ok'));
+
+require('./cron');
+
+app.use((req, res) => {
+  res.status(404);
+  try {
+    return res.render('404');
+  } catch (e) {
+    if (req.accepts('json')) return res.json({ error: 'Not found' });
+    return res.type('txt').send('Not found');
+  }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+module.exports = app;

@@ -135,8 +135,8 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
+  <script nonce="<%= cspNonce %>" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script nonce="<%= cspNonce %>">
     const modal = document.getElementById("modalProduto");
     const btnAbrir = document.getElementById("btnNovoProduto");
     const btnFechar = document.getElementById("fecharModal");

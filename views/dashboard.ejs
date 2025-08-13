@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="/dashboard/dashboard.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script nonce="<%= cspNonce %>" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script nonce="<%= cspNonce %>" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
   <div class="layout" data-aos="zoom-in-left">
@@ -17,10 +17,9 @@
       <nav>
         <a href="/estoque"><i class="fas fa-boxes"></i> Estoque</a>
         <a href="/funcionarios"><i class="fas fa-users"></i> Funcionários</a>
-        <a href="/financeiro"><i class="fas fa-dollar-sign"></i> Financeiro</a>
+        <a href="/"><i class="fas fa-dollar-sign"></i> Financeiro</a>
         <a href="/relatorios"><i class="fas fa-file-alt"></i> Relatórios</a>
         <a href="/menu"><i class="fas fa-address-book"></i> menu</a>
-        <a href="/cardapio"><i class="fas fa-utensils"></i> Cardápio</a>
       </nav>
     </aside>
 
@@ -52,7 +51,7 @@
     </main>
   </div>
 
-  <script>
+  <script nonce="<%= cspNonce %>">
      document.addEventListener('DOMContentLoaded', async () => {
       const nomeAtual = "<%= nome_empresa || '' %>";
 
@@ -159,7 +158,7 @@
     });
   </script>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({ duration: 800, once: true });</script>
+  <script nonce="<%= cspNonce %>" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script nonce="<%= cspNonce %>">AOS.init({ duration: 800, once: true });</script>
 </body>
 </html>

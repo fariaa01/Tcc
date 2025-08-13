@@ -1,11 +1,9 @@
+const router = require('express').Router();
+const ctrl = require('../controllers/financeiroController');
 
-const express = require('express');
-const router = express.Router();
-const financeiroController = require('../controllers/financeiroController');
-
-router.get('/', financeiroController.listar);
-router.post('/create', financeiroController.criar);
-router.post('/edit/:id', financeiroController.atualizar);
-router.get('/delete/:id', financeiroController.deletar);
+router.get('/', ctrl.listar);
+router.post('/', ctrl.criar);
+router.post('/:id/update', ctrl.atualizar);
+router.get('/delete/:id', ctrl.deletar);
 
 module.exports = router;

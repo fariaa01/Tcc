@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const pedidoController = require('../controllers/pedidoController');
-const cardapioController = require('../controllers/cardapioController');
+const menuController = require('../controllers/menuController');
 
-router.get('/', cardapioController.exibirCardapio);
+router.get('/', (req, res) => res.redirect('/restaurantes'));
+router.get('/u/:usuarioId', menuController.publicoPorUsuario);
 
-module.exports = router;    
+module.exports = router;

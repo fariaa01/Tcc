@@ -6,6 +6,7 @@
   <title>Gestão de Cardápio</title>
   <link rel="stylesheet" href="/menu/menu.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
 </head>
 <body>
   <div class="container">
@@ -17,23 +18,65 @@
 
   <div class="grid-cards">
     <% pratos.forEach(p => { %>
-      <div class="card">
-        <% if (p.foto) { %>
-          <img src="/uploads/<%= p.foto %>" alt="Foto do prato">
+      <div class="card <%= (p.arquivado ? 'is-archived' : '') %>" data-id="<%= p.id %>">
+        <% if (p.imagem) { %>
+          <img src="/uploads/<%= p.imagem %>" alt="Foto do prato">
         <% } else { %>
           <div class="img-placeholder">Sem imagem</div>
         <% } %>
+
         <div class="card-body">
-          <h3><%= p.pedido || p.nome %></h3>
-          <p><strong>Ingredientes:</strong> <%= p.ingredientes %></p>
-          <p><strong>Quantidade:</strong> <%= p.quantidade %></p>
-          <p><strong>Preço:</strong> R$ <%= parseFloat(p.preco).toFixed(2) %></p>
+          <div class="linha-topo">
+            <h3 class="editable" data-field="nome_prato"><%= p.nome_prato || p.pedido || p.nome %></h3>
+
+            <span class="badge <%= (p.is_disponivel === 0 ? 'badge-off' : 'badge-on') %>">
+              <%= (p.is_disponivel === 0 ? 'Indisponível' : 'Disponível') %>
+            </span>
+
+            <% if (p.arquivado) { %>
+              <span class="badge badge-archived" title="Este item está arquivado">
+                <i class="fa-solid fa-box-archive"></i> Arquivado
+              </span>
+            <% } %>
+          </div>
+
+          <% if (p.ingredientes) { %>
+            <p><strong>Ingredientes:</strong> <%= p.ingredientes %></p>
+          <% } %>
+
+          <% if (typeof p.quantidade !== 'undefined') { %>
+            <p><strong>Quantidade:</strong> <%= p.quantidade %></p>
+          <% } %>
+
+          <p>
+            <strong>Preço:</strong>
+            <span class="editable" data-field="preco">R$ <%= Number(p.preco).toFixed(2) %></span>
+          </p>
+
+          <label class="switch">
+            <input type="checkbox" class="toggle-disponivel" <%= (p.is_disponivel === 0 ? '' : 'checked') %> />
+            <span class="slider"></span>
+          </label>
+
           <% if (p.observacoes) { %>
             <p><strong>Obs:</strong> <%= p.observacoes %></p>
           <% } %>
-          <form action="/menu/excluir/<%= p.id %>" method="POST" class="form-excluir">
-            <button type="submit" class="btn-excluir">Excluir</button>
-          </form>
+
+          <div class="actions">
+            <% if (p.arquivado) { %>
+              <button type="button" class="btn-restaurar" data-id="<%= p.id %>">
+                <i class="fa-solid fa-rotate-left"></i> Restaurar
+              </button>
+            <% } else { %>
+              <button type="button" class="btn-arquivar" data-id="<%= p.id %>">
+                <i class="fa-solid fa-box-archive"></i> Arquivar
+              </button>
+            <% } %>
+
+            <form action="/menu/delete/<%= p.id %>" method="POST" class="form-excluir">
+              <button type="submit" class="btn-excluir">Excluir</button>
+            </form>
+          </div>
         </div>
       </div>
     <% }) %>
@@ -64,17 +107,29 @@
         <input type="text" name="nome_prato" placeholder="Nome do prato" required />
         <div id="camposDinamicos"></div>
         <input type="text" name="ingredientes" placeholder="Ingredientes" required />
-        <input type="number" name="quantidade" placeholder="Quantidade" min="1" required />
+        <input type="number" name="quantidade" placeholder="Quantidade" min="1" />
         <input type="number" step="0.01" name="preco" placeholder="Preço (R$)" required />
-        <input type="file" name="imagem" accept="image/*" id="foto" style="display:none;">x
-        <span id="nome-arquivo"></span>
+
+        <div class="upload-box">
+          <input type="file" name="imagem" accept="image/*" id="foto" hidden>
+          <label for="foto" class="dropzone" id="dropzone">
+            <i class="fas fa-image"></i>
+            <div class="dz-text">
+              <strong>Arraste e solte</strong> uma imagem aqui<br/>
+              ou <u>clique para selecionar</u>
+              <div class="dz-sub">PNG, JPG ou WEBP • até 2MB</div>
+            </div>
+            <div class="dz-thumb" id="dzThumb" aria-hidden="true"></div>
+          </label>
+          <span id="nome-arquivo">Nenhum arquivo selecionado</span>
+        </div>
+
         <button class="btn-cadastrar" id="btnCadastrar">Cadastrar</button>
       </form>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
+  <script nonce="<%= cspNonce %>">
     document.querySelectorAll('.form-excluir').forEach(form => {
       form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -129,13 +184,77 @@
           <input type="number" name="volume" placeholder="Volume (ml)" class="form-box-input" />`;
       } else if (categoria === "lanche") {
         camposDinamicos.innerHTML = `
-          <input type="text" name="tamanho" placeholder="Tamanho do lanche" />
+          <select name="tamanho" class="form-box-input" required>
+            <option value="">Selecione o tamanho...</option>
+            <option value="P">Pequeno (P)</option>
+            <option value="M">Médio (M)</option>
+            <option value="G">Grande (G)</option>
+            <option value="GG">Gigante (GG)</option>
+          </select>
           <input type="text" name="acompanhamento" placeholder="Acompanhamento" />`;
       }
 
       modalCategoria.style.display = "none";
       modalPedido.style.display = "block";
     };
+
+    (function () {
+      const grid = document.querySelector('.grid-cards');
+      if (!grid) return;
+
+      async function patch(id, body) {
+        const res = await fetch(`/menu/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        return res.json();
+      }
+
+      grid.addEventListener('click', async (e) => {
+        const btnArq = e.target.closest('.btn-arquivar');
+        const btnRes = e.target.closest('.btn-restaurar');
+        if (!btnArq && !btnRes) return;
+
+        const card = e.target.closest('.card');
+        const id = (btnArq || btnRes).dataset.id;
+        const arquivar = !!btnArq;
+
+        const resp = await patch(id, { arquivado: arquivar ? 1 : 0 });
+        if (!resp.ok) return;
+
+        card.classList.toggle('is-archived', arquivar);
+
+        let badgeArch = card.querySelector('.badge-archived');
+        if (arquivar && !badgeArch) {
+          const span = document.createElement('span');
+          span.className = 'badge badge-archived';
+          span.innerHTML = '<i class="fa-solid fa-box-archive"></i> Arquivado';
+          card.querySelector('.linha-topo').appendChild(span);
+        }
+        if (!arquivar && badgeArch) badgeArch.remove();
+
+        const actions = card.querySelector('.actions');
+        if (actions) {
+          if (arquivar) {
+            const old = actions.querySelector('.btn-arquivar');
+            if (old) old.outerHTML = `<button type="button" class="btn-restaurar" data-id="${id}">
+              <i class="fa-solid fa-rotate-left"></i> Restaurar
+            </button>`;
+          } else {
+            const old = actions.querySelector('.btn-restaurar');
+            if (old) old.outerHTML = `<button type="button" class="btn-arquivar" data-id="${id}">
+              <i class="fa-solid fa-box-archive"></i> Arquivar
+            </button>`;
+          }
+        }
+      });
+    })();
   </script>
+
+  <script nonce="<%= cspNonce %>" src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+  <script nonce="<%= cspNonce %>" src="/menu/js/menu-inline.js" defer></script>
+  <script nonce="<%= cspNonce %>" src="/menu/js/menu-modals.js" defer></script>
+  <script nonce="<%= cspNonce %>" src="/menu/js/upload-zone.js" defer></script>
 </body>
 </html>
