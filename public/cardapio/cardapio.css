@@ -1,0 +1,130 @@
+body {
+    margin: 10;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+    text-decoration: none;
+    background-color: #00000000;
+}
+
+.filtros-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 500px rgba(0, 0, 0, 0.08);
+    width: 85%;
+    align-content: center;
+}
+
+.btn-ghost {
+    background-color:  #1e4fd1;
+    color: white;
+    display: flex;
+    text-decoration: none;
+    text-align: center;
+    align-items: center;
+    height: 20px;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 10px;
+    width: 20%;
+
+}
+
+.chip {
+
+    background-color: white;
+    color: rgb(0, 0, 0);
+    display: inline-flex;
+    text-decoration: none;
+    border-radius: 7px;
+    padding: 8px;
+    border: none;
+    text-align: center;
+}
+
+.chip:hover {
+    background-color: #3489dd81;
+    color: #ffffff;
+}
+
+.btn-primary {
+    background-color: #1e4fd1;
+    color: rgb(255, 255, 255);
+    display: inline-flex;
+    text-decoration: none;
+    border-radius: 7px;
+    padding: 8px;
+    border: none;
+    text-align: center;
+    margin-left: 90%;
+
+}
+
+.btn-primary:hover {
+    background-color: #1e4ed19a;
+    color: #ffffff;
+
+}
+
+.card {
+
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    padding: 16px;
+    margin: 0;
+    transition: box-shadow 0.2s;
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: top;
+    width: 250px;
+    margin: 10px;
+}
+
+.card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+    transition: 0.6s;
+}
+
+.btn {
+    background-color: #1e4fd1;
+    color: white;
+    display: block;
+    text-decoration: none;
+    border-radius: 7px;
+    ;
+    padding: 7px;
+    border: none;
+    text-align: center;
+    width: 50%;
+    margin-top: 10px;
+    cursor: pointer;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+}
+
+.card {
+    background-color: rgb(255, 255, 255);
+    border: none;
+    max-height: 400px;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    max-height: 170px;
+    object-fit: cover;
+}
+
+#cart-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 9 auto;
+    max-width: 20px;
+}

@@ -7,11 +7,14 @@
   <link rel="stylesheet" href="/cardapio/cardapio.css" />
 </head>
 <body>
+  
   <div class="container">
     <header class="topbar">
       <h1><%= empresaNome %></h1>
       <a href="/restaurantes" class="btn-ghost">Trocar restaurante</a>
+      
     </header>
+    <form action="" class="filtros-form">
     <% 
       const temCategorias = (typeof categorias !== 'undefined' && Array.isArray(categorias) && categorias.length > 0);
       const listaChips = temCategorias ? categorias : ['Todos','Drinks','Pizza','Salad','Spicy','Sweets'];
@@ -54,7 +57,7 @@
                 <strong class="preco">R$ <%= Number(i.preco).toFixed(2).replace('.', ',') %></strong>
                 <form method="POST" action="/carrinho/adicionar" class="acao">
                   <input type="hidden" name="item_id" value="<%= i.id %>">
-                  <button type="submit" class="btn" aria-label="Adicionar <%= i.nome_prato %> ao carrinho">
+                  <button type="submit" class="btn" aria-label="Adicionar <%= i.nome_prato %> ao carrinho"><img src="/cardapio/cart (1).png" alt="" id="cart-icon">
                     Adicionar
                   </button>
                 </form>
@@ -65,5 +68,6 @@
       </div>
     <% } %>
   </div>
+</form>
 </body>
 </html>
