@@ -1,6 +1,6 @@
 body {
     margin: 10;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+    font-family: Arial, sans-serif;
     text-decoration: none;
     background-color: #00000000;
 }
@@ -12,8 +12,7 @@ body {
     margin: 0 auto;
     padding: 30px;
     border-radius: 15px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 500px rgba(0, 0, 0, 0.08);
+    
     width: 85%;
     align-content: center;
 }
@@ -22,15 +21,15 @@ body {
     background-color:  #1e4fd1;
     color: white;
     display: flex;
+    justify-self: flex-end;
     text-decoration: none;
+    border-radius: 7px;
+    max-width: 550px;
+    max-height: 90px;
     text-align: center;
-    align-items: center;
-    height: 20px;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 10px;
-    width: 20%;
-
+    font-size:32px;
+    padding: 10PX;
+    
 }
 
 .chip {
@@ -38,11 +37,14 @@ body {
     background-color: white;
     color: rgb(0, 0, 0);
     display: inline-flex;
+    justify-content: space-between; 
     text-decoration: none;
     border-radius: 7px;
-    padding: 8px;
+    padding: 20px 85px ;
     border: none;
     text-align: center;
+ 
+
 }
 
 .chip:hover {
@@ -51,15 +53,17 @@ body {
 }
 
 .btn-primary {
-    background-color: #1e4fd1;
-    color: rgb(255, 255, 255);
+     background-color: #1e4fd1;
+    color: rgb(255, 246, 246);
     display: inline-flex;
+    justify-content: space-between; 
     text-decoration: none;
     border-radius: 7px;
-    padding: 8px;
+    padding: 20px 25px;
     border: none;
     text-align: center;
-    margin-left: 90%;
+   
+
 
 }
 
@@ -110,16 +114,20 @@ body {
 .card {
     background-color: rgb(255, 255, 255);
     border: none;
-    max-height: 400px;
+    max-height: 500px;
+    max-width: 500px;
+    min-width:500px;
 }
 
-img {
+img{
     width: 100%;
-    height: auto;
     border-radius: 10px;
-    max-height: 170px;
+    max-height: 280px;
+    max-width: 500px;
+
     object-fit: cover;
 }
+
 
 #cart-icon {
     display: inline-block;
@@ -127,4 +135,43 @@ img {
     height: 20px;
     margin: 9 auto;
     max-width: 20px;
+}
+
+
+.topbar {
+  background-color: #1e4ed1; /* azul bonito */
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.topbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  background-color: #fff;
+  color: #1e4ed1;
 }
