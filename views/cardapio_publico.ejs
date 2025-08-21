@@ -71,5 +71,18 @@
     <% } %>
   </div>
 </form>
+  <script nonce="<%= cspNonce %>"></script>
+<script>
+  alert("Bem-vindo ao cardápio do restaurante <%= empresaNome %>!");
+</script>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <%= new Date().getFullYear() %> <%= empresaNome %>. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="/cardapio/cardapio.js"></script>
 </body>
 </html>
