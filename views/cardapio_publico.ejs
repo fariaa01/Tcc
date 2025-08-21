@@ -10,10 +10,12 @@
   
   <div class="container">
     <header class="topbar">
-      <h1><%= empresaNome %></h1>
-      <a href="/restaurantes" class="btn-ghost">Trocar restaurante</a>
-      
-    </header>
+  <div class="container">
+    <h1><%= empresaNome %></h1>
+    <a href="/restaurantes" class="btn-ghost">Trocar restaurante</a>
+  </div>
+</header>
+
     <form action="" class="filtros-form">
     <% 
       const temCategorias = (typeof categorias !== 'undefined' && Array.isArray(categorias) && categorias.length > 0);
