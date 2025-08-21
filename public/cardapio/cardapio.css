@@ -33,18 +33,17 @@ body {
 }
 
 .chip {
-
     background-color: white;
     color: rgb(0, 0, 0);
-    display: inline-flex;
     justify-content: space-between; 
     text-decoration: none;
     border-radius: 7px;
-    padding: 20px 85px ;
+     padding: 20px ;
     border: none;
     text-align: center;
- 
-
+}
+button{
+   margin-left: 100px;
 }
 
 .chip:hover {
