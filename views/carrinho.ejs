@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Carinho</h1>
+    <% if (itens.length === 0) { %>
+        <p>Seu carrinho está vazio.</p>
+    <% } else { %>
+        <ul>
+            <% itens.forEach(function(item) { %>
+                <li><%= item.nome_prato %> - R$ <%= Number(item.preco).toFixed(2).replace('.', ',') %></li>
+            <% }) %>
+        </ul>
+        <form method="POST" action="/carrinho/checkout">
+            <button type="submit">Finalizar Compra</button>
+        </form>
+    <% } %>
+   
+</body>
+</html>

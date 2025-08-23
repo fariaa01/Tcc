@@ -53,6 +53,7 @@ app.use('/estoque', require('./routes/estoque'));
 app.use('/restaurantes', require('./routes/restaurantes'));
 app.use('/financeiro', require('./routes/financeiro'));
 app.use('/contas-a-pagar', require('./routes/contasPagar'));
+app.use('/carrinho', require('./routes/carrinho'));
 
 app.get('/healthz', (_req, res) => res.status(200).send('ok'));
 
@@ -74,3 +75,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+ 

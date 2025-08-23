@@ -107,8 +107,8 @@
       }
 
      
-      const dadosEntradas = <%- JSON.stringify(entradas) %>;
-      const dadosSaidas = <%- JSON.stringify(saidas) %>;
+      const dadosEntradas = <%= JSON.stringify(entradas) %>;
+      const dadosSaidas = <%= JSON.stringify(saidas) %>;
       const ctx = document.getElementById('grafico');
 
       new Chart(ctx, {

@@ -52,7 +52,7 @@
 
               <div class="card-footer">
                 <strong class="preco">R$ <%= Number(i.preco).toFixed(2).replace('.', ',') %></strong>
-                <form method="POST" action="/carrinho/adicionar" class="acao">
+                <form method="POST" action="/carrinho" class="acao">
                   <input type="hidden" name="item_id" value="<%= i.id %>">
                   <button type="submit" class="btn" aria-label="Adicionar <%= i.nome_prato %> ao carrinho">
                     Adicionar
@@ -65,5 +65,6 @@
       </div>
     <% } %>
   </div>
+  <script src="/cardapio/cardapio.js"></script>
 </body>
 </html>
