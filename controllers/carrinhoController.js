@@ -1,17 +1,15 @@
 module.exports = {
   mostrarCarrinho: (req, res) => {
-    const carrinho = req.session.carrinho || [];
-    res.render('carrinho', { itens: carrinho });
+    const itens = req.session.carrinho || [];
+    res.render('carrinho', { itens });
   },
   limparCarrinho: (req, res) => {
     req.session.carrinho = [];
     res.redirect('/carrinho');
   },
-  verCarrinho: async (req, res) => {
-    const carrinho = req.session.carrinho || [];
-    const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-    res.render('carrinho', { carrinho, total });
+  verCarrinho: (req, res) => {
+    const itens = req.session.carrinho || [];
+    const total = itens.reduce((sum, item) => sum + (item.preco * (item.quantidade || 1)), 0);
+    res.render('carrinho', { itens, total });
   }
 };
-
- 

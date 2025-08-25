@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+  <!-- Cards de resumo no topo -->
+  <div class="top-cards">
+    <div class="summary-card">
+      <span class="icon"><i class="fas fa-list"></i></span>
+      <span class="number"><%= pedidosTotal %></span>
+      Pedidos Realizados
+    </div>
+    <div class="summary-card">
+      <span class="icon"><i class="fas fa-check-circle"></i></span>
+      <span class="number"><%= pedidosProntos %></span>
+      Prontos
+    </div>
+    <div class="summary-card">
+      <span class="icon"><i class="fas fa-hourglass-half"></i></span>
+      <span class="number"><%= pedidosAndamento %></span>
+      Em Andamento
+    </div>
+  </div>
+
+  <div class="grid-cards">
+    <% pedidos.forEach(p => { %>
+      <div class="card">
+        <% if (p.foto) { %>
+          <img src="/uploads/<%= p.foto %>" alt="Foto do prato">
+        <% } else { %>
+          <div class="img-placeholder">Sem imagem</div>
+        <% } %>
+        <div class="card-body">
+          <h3><%= p.pedido %></h3>
+          <p><strong>Cliente:</strong> <%= p.nome_cliente %></p>
+          <p><strong>Ingredientes:</strong> <%= p.ingredientes %></p>
+          <p><strong>Quantidade:</strong> <%= p.quantidade %></p>
+          <p><strong>Preço:</strong> R$ <%= parseFloat(p.preco).toFixed(2) %></p>
+          <% if (p.observacoes) { %>
+            <p><strong>Obs:</strong> <%= p.observacoes %></p>
+          <% } %>
+          <form action="/menu/excluir/<%= p.id %>" method="POST" onsubmit="return confirm('Deseja excluir este pedido?')">
+            <button type="submit" class="btn-excluir">Excluir</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</body>
+</html>
